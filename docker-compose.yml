@@ -9,7 +9,7 @@ services:
     ports:
       - 8080:80
     networks:
-      mynet:
+      internal:
         aliases:
           - ser
 
@@ -22,11 +22,10 @@ services:
     depends_on:
       - webserver
     networks:
-      mynet:
+      internal:
         aliases:
           - cli
     command: ping ser
 
 networks:
-  mynet:
-    external: true
+  internal:
