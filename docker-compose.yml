@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  webserver:
+    image: nginx
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role != manager]
+    ports:
+      - 8080:80
+    networks:
+      mynet:
+        aliases:
+          - ser
+
+  webclient:
+    image: alpine
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.role != manager]
+    depends_on:
+      - webserver
+    networks:
+      mynet:
+        aliases:
+          - cli
+    command: ping ser
+
+networks:
+  mynet:
+    external: true
